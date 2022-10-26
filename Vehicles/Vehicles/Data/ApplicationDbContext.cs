@@ -8,11 +8,11 @@ namespace Vehicles.Data
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
-            
         }
 
         public DbSet<Brand> Brands { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
+        public DbSet<History> Histories { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehicleType> VehicleTypes { get; set; }
@@ -29,6 +29,11 @@ namespace Vehicles.Data
                 .HasOne(bc => bc.Brand)
                 .WithMany(b => b.Vehicles)
                 .HasForeignKey(bc => bc.BrandId);
+
+            modelBuilder.Entity<History>()
+                .HasOne(bc => bc.Vehicle)
+                .WithMany(b => b.Histories)
+                .HasForeignKey(bc => bc.VehicleId);
 
             base.OnModelCreating(modelBuilder);
         }

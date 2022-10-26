@@ -14,6 +14,9 @@ namespace Vehicles.Helpers
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
             CreateMap<DocumentTypeCreationDTO, DocumentType>();
 
+            CreateMap<History, HistoryDTO>().ReverseMap();
+            CreateMap<HistoryCreationDTO, History>();
+
             CreateMap<Procedure, ProcedureDTO>().ReverseMap();
             CreateMap<ProcedureCreationDTO, Procedure>();
 

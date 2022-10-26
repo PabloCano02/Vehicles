@@ -19,6 +19,10 @@ namespace Vehicles.DTOs
         [Display(Name = "Marca")]
         public Brand Brand { get; set; }
 
+        [JsonIgnore]
+        public ICollection<History> Histories { get; set; }
+
+
         [Display(Name = "Modelo")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         [Range(1900, 3000, ErrorMessage = "Valor de módelo no válido.")]

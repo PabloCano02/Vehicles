@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
 
 namespace Vehicles.Entities
 {
@@ -19,6 +18,9 @@ namespace Vehicles.Entities
         [JsonIgnore]
         [Display(Name = "Marca")]
         public Brand Brand { get; set; }
+
+        [JsonIgnore]
+        public ICollection<History> Histories { get; set; }
 
         [Display(Name = "Modelo")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]

@@ -44,7 +44,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> PostVehicle([FromBody] VehicleCreationDTO vehicleCreationDTO)
+        public async Task<ActionResult<Vehicle>> PostVehicle([FromBody] VehicleCreationDTO vehicleCreationDTO)
         {
             var vehicle = _mapper.Map<Vehicle>(vehicleCreationDTO);
 
