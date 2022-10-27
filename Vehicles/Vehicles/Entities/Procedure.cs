@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Vehicles.Entities
 {
@@ -18,5 +19,8 @@ namespace Vehicles.Entities
         [DisplayFormat(DataFormatString = "{0:C2}")]
         [Required(ErrorMessage = "El campo {0} es obligatorio.")]
         public decimal Price { get; set; }
+
+        [JsonIgnore]
+        public ICollection<Detail> Details { get; set; }
     }
 }

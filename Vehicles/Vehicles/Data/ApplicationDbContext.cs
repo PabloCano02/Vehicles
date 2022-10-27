@@ -11,6 +11,7 @@ namespace Vehicles.Data
         }
 
         public DbSet<Brand> Brands { get; set; }
+        public DbSet<Detail> Details { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<History> Histories { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
@@ -34,6 +35,15 @@ namespace Vehicles.Data
                 .HasOne(bc => bc.Vehicle)
                 .WithMany(b => b.Histories)
                 .HasForeignKey(bc => bc.VehicleId);
+
+            modelBuilder.Entity<Detail>()
+                .HasOne(bc => bc.History)
+                .WithMany(b => b.Details)
+                .HasForeignKey(bc => bc.HistoryId);
+            modelBuilder.Entity<Detail>()
+                .HasOne(bc => bc.Procedure)
+                .WithMany(b => b.Details)
+                .HasForeignKey(bc => bc.ProcedureId);
 
             base.OnModelCreating(modelBuilder);
         }

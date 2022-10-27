@@ -8,8 +8,11 @@ namespace Vehicles.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Brand, BrandDTO>().ReverseMap(); 
+            CreateMap<Brand, BrandDTO>().ReverseMap();
             CreateMap<BrandCreationDTO, Brand>();
+
+            CreateMap<Detail, DetailDTO>().ReverseMap();
+            CreateMap<DetailCreationDTO, Detail>();
 
             CreateMap<DocumentType, DocumentTypeDTO>().ReverseMap();
             CreateMap<DocumentTypeCreationDTO, DocumentType>();

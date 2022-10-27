@@ -25,18 +25,19 @@ namespace Vehicles.DTOs
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
 
-        //public ICollection<Detail> Details { get; set; }
+        [JsonIgnore]
+        public ICollection<Detail> Details { get; set; }
 
-        //[Display(Name = "Total Mano de Obra")]
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //public int TotalLabor => Details == null ? 0 : Details.Sum(x => x.LaborPrice);
+        [Display(Name = "Total Mano de Obra")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public int TotalLabor => Details == null ? 0 : Details.Sum(x => x.LaborPrice);
 
-        //[Display(Name = "Total Repuestos")]
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //public int TotalSpareParts => Details == null ? 0 : Details.Sum(x => x.SparePartsPrice);
+        [Display(Name = "Total Repuestos")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public int TotalSpareParts => Details == null ? 0 : Details.Sum(x => x.SparePartsPrice);
 
-        //[Display(Name = "Total")]
-        //[DisplayFormat(DataFormatString = "{0:C2}")]
-        //public int Total => Details == null ? 0 : Details.Sum(x => x.TotalPrice);
+        [Display(Name = "Total")]
+        [DisplayFormat(DataFormatString = "{0:C2}")]
+        public int Total => Details == null ? 0 : Details.Sum(x => x.TotalPrice);
     }
 }
