@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Reflection.Emit;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Vehicles.Entities;
 
 namespace Vehicles.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
     {
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
@@ -16,6 +16,7 @@ namespace Vehicles.Data
         public DbSet<History> Histories { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
+        public DbSet<VehiclePhoto> VehiclePhotos { get; set; }
         public DbSet<VehicleType> VehicleTypes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,7 +46,10 @@ namespace Vehicles.Data
                 .WithMany(b => b.Details)
                 .HasForeignKey(bc => bc.ProcedureId);
 
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<VehiclePhoto>()
+                .HasOne(bc => bc.Vehicle)
+                .WithMany(b => b.VehiclePhotos)
+                .HasForeignKey(bc => bc.VehicleId);
         }
 
     }
