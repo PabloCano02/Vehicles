@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using System.Xml.Linq;
+using Vehicles.Models;
 
 namespace Vehicles.Entities
 {
@@ -10,9 +10,15 @@ namespace Vehicles.Entities
 
         public int VehicleId { get; set; }
 
+        public string UserId { get; set; }
+
         [JsonIgnore]
         [Display(Name = "Vehículo")]
         public Vehicle Vehicle { get; set; }
+
+        [JsonIgnore]
+        [Display(Name = "Usuario")]
+        public IdentityModel IdentityModel { get; set; }
 
         [Display(Name = "Fecha")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd hh:mm tt}")]

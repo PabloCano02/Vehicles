@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.Entities;
+using Vehicles.Models;
 
 namespace Vehicles.Data
 {
@@ -14,6 +15,7 @@ namespace Vehicles.Data
         public DbSet<Detail> Details { get; set; }
         public DbSet<DocumentType> DocumentTypes { get; set; }
         public DbSet<History> Histories { get; set; }
+        public DbSet<IdentityModel> IdentityModels { get; set; }
         public DbSet<Procedure> Procedures { get; set; }
         public DbSet<Vehicle> Vehicles { get; set; }
         public DbSet<VehiclePhoto> VehiclePhotos { get; set; }
@@ -23,20 +25,6 @@ namespace Vehicles.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Vehicle>()
-                .HasOne(bc => bc.VehicleType)
-                .WithMany(b => b.Vehicles)
-                .HasForeignKey(bc => bc.VehicleTypeId);
-            modelBuilder.Entity<Vehicle>()
-                .HasOne(bc => bc.Brand)
-                .WithMany(b => b.Vehicles)
-                .HasForeignKey(bc => bc.BrandId);
-
-            modelBuilder.Entity<History>()
-                .HasOne(bc => bc.Vehicle)
-                .WithMany(b => b.Histories)
-                .HasForeignKey(bc => bc.VehicleId);
-
             modelBuilder.Entity<Detail>()
                 .HasOne(bc => bc.History)
                 .WithMany(b => b.Details)
@@ -45,6 +33,33 @@ namespace Vehicles.Data
                 .HasOne(bc => bc.Procedure)
                 .WithMany(b => b.Details)
                 .HasForeignKey(bc => bc.ProcedureId);
+
+            modelBuilder.Entity<History>()
+                .HasOne(bc => bc.IdentityModel)
+                .WithMany(b => b.Histories)
+                .HasForeignKey(bc => bc.UserId);
+            modelBuilder.Entity<History>()
+                .HasOne(bc => bc.Vehicle)
+                .WithMany(b => b.Histories)
+                .HasForeignKey(bc => bc.VehicleId);
+
+            modelBuilder.Entity<IdentityModel>()
+                .HasOne(bc => bc.DocumentType)
+                .WithMany(b => b.IdentityModels)
+                .HasForeignKey(bc => bc.DocumentTypeId);
+
+            modelBuilder.Entity<Vehicle>()
+                .HasOne(bc => bc.VehicleType)
+                .WithMany(b => b.Vehicles)
+                .HasForeignKey(bc => bc.VehicleTypeId);
+            modelBuilder.Entity<Vehicle>()
+                .HasOne(bc => bc.Brand)
+                .WithMany(b => b.Vehicles)
+                .HasForeignKey(bc => bc.BrandId);
+            modelBuilder.Entity<Vehicle>()
+                .HasOne(bc => bc.IdentityModel)
+                .WithMany(b => b.Vehicles)
+                .HasForeignKey(bc => bc.UserId);
 
             modelBuilder.Entity<VehiclePhoto>()
                 .HasOne(bc => bc.Vehicle)

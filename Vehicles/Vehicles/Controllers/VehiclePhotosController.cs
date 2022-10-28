@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.Data;
@@ -50,6 +52,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<VehiclePhoto>> PostVehiclePhoto([FromForm] VehiclePhotoCreationDTO vehiclePhotoCreationDTO)
         {
             var file = _mapper.Map<VehiclePhoto>(vehiclePhotoCreationDTO);
@@ -65,6 +68,7 @@ namespace Vehicles.Controllers
         }
 
         //[HttpPut("{id}")]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         //public async Task<ActionResult<VehiclePhoto>> PutVehiclePhoto(int id, [FromForm] VehiclePhotoDTO vehiclePhotoDTO)
         //{
         //    if (id != vehiclePhotoDTO.Id)
@@ -85,6 +89,7 @@ namespace Vehicles.Controllers
         //}
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult> DeleteVehiclePhoto(int id)
         {
             VehiclePhoto vehiclePhoto = await _context.VehiclePhotos.FirstOrDefaultAsync(vp => vp.Id == id);

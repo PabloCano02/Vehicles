@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.Data;
@@ -45,6 +47,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<Detail>> PostDetail([FromBody] DetailCreationDTO detailCreationDTO)
         {
             var detail = _mapper.Map<Detail>(detailCreationDTO);
@@ -55,6 +58,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<Detail>> PutDetail(int id, Detail detail)
         {
             if (id != detail.Id)
@@ -75,6 +79,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<IActionResult> DeleteDetail(int id)
         {
             Detail detail = await _context.Details.FirstOrDefaultAsync(d => d.Id == id);

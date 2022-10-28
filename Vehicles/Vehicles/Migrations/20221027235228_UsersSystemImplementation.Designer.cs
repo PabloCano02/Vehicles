@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vehicles.Data;
 
@@ -11,9 +12,10 @@ using Vehicles.Data;
 namespace Vehicles.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221027235228_UsersSystemImplementation")]
+    partial class UsersSystemImplementation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,10 +88,6 @@ namespace Vehicles.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -141,8 +139,6 @@ namespace Vehicles.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -311,15 +307,10 @@ namespace Vehicles.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("VehicleId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("VehicleId");
 
@@ -379,17 +370,12 @@ namespace Vehicles.Migrations
                     b.Property<string>("Remarks")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("VehicleTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BrandId");
-
-                    b.HasIndex("UserId");
 
                     b.HasIndex("VehicleTypeId");
 
@@ -433,38 +419,6 @@ namespace Vehicles.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VehicleTypes");
-                });
-
-            modelBuilder.Entity("Vehicles.Models.IdentityModel", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("DocumentNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("DocumentTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.HasDiscriminator().HasValue("IdentityModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -539,17 +493,11 @@ namespace Vehicles.Migrations
 
             modelBuilder.Entity("Vehicles.Entities.History", b =>
                 {
-                    b.HasOne("Vehicles.Models.IdentityModel", "IdentityModel")
-                        .WithMany("Histories")
-                        .HasForeignKey("UserId");
-
                     b.HasOne("Vehicles.Entities.Vehicle", "Vehicle")
                         .WithMany("Histories")
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("IdentityModel");
 
                     b.Navigation("Vehicle");
                 });
@@ -562,10 +510,6 @@ namespace Vehicles.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Vehicles.Models.IdentityModel", "IdentityModel")
-                        .WithMany("Vehicles")
-                        .HasForeignKey("UserId");
-
                     b.HasOne("Vehicles.Entities.VehicleType", "VehicleType")
                         .WithMany("Vehicles")
                         .HasForeignKey("VehicleTypeId")
@@ -573,8 +517,6 @@ namespace Vehicles.Migrations
                         .IsRequired();
 
                     b.Navigation("Brand");
-
-                    b.Navigation("IdentityModel");
 
                     b.Navigation("VehicleType");
                 });
@@ -590,25 +532,9 @@ namespace Vehicles.Migrations
                     b.Navigation("Vehicle");
                 });
 
-            modelBuilder.Entity("Vehicles.Models.IdentityModel", b =>
-                {
-                    b.HasOne("Vehicles.Entities.DocumentType", "DocumentType")
-                        .WithMany("IdentityModels")
-                        .HasForeignKey("DocumentTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DocumentType");
-                });
-
             modelBuilder.Entity("Vehicles.Entities.Brand", b =>
                 {
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("Vehicles.Entities.DocumentType", b =>
-                {
-                    b.Navigation("IdentityModels");
                 });
 
             modelBuilder.Entity("Vehicles.Entities.History", b =>
@@ -630,13 +556,6 @@ namespace Vehicles.Migrations
 
             modelBuilder.Entity("Vehicles.Entities.VehicleType", b =>
                 {
-                    b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("Vehicles.Models.IdentityModel", b =>
-                {
-                    b.Navigation("Histories");
-
                     b.Navigation("Vehicles");
                 });
 #pragma warning restore 612, 618

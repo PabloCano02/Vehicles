@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.Data;
@@ -44,6 +46,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<Vehicle>> PostVehicle([FromBody] VehicleCreationDTO vehicleCreationDTO)
         {
             var vehicle = _mapper.Map<Vehicle>(vehicleCreationDTO);
@@ -54,6 +57,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<Vehicle>> PutVehicle(int id, Vehicle vehicle)
         {
             if (id != vehicle.Id)
@@ -74,6 +78,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<IActionResult> DeleteVehicle(int id)
         {
             Vehicle vehicle = await _context.Vehicles.FirstOrDefaultAsync(v => v.Id == id);

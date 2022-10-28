@@ -2,6 +2,7 @@
 using System.Text.Json.Serialization;
 using System.Xml.Linq;
 using Vehicles.Entities;
+using Vehicles.Models;
 
 namespace Vehicles.DTOs
 {
@@ -13,6 +14,8 @@ namespace Vehicles.DTOs
 
         public int BrandId { get; set; }
 
+        public string UserId { get; set; }
+
         [JsonIgnore]
         [Display(Name = "Tipo de vehículo")]
         public VehicleType VehicleType { get; set; }
@@ -20,6 +23,10 @@ namespace Vehicles.DTOs
         [JsonIgnore]
         [Display(Name = "Marca")]
         public Brand Brand { get; set; }
+
+        [JsonIgnore]
+        [Display(Name = "Usuario")]
+        public IdentityModel IdentityModel { get; set; }
 
         [JsonIgnore]
         public ICollection<History> Histories { get; set; }
@@ -51,6 +58,5 @@ namespace Vehicles.DTOs
         [Display(Name = "Observación")]
         [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
-
     }
 }

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vehicles.Data;
@@ -45,6 +47,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPost]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<History>> PostHistory([FromBody] HistoryCreationDTO historyCreationDTO)
         {
             var history = _mapper.Map<History>(historyCreationDTO);
@@ -55,6 +58,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<ActionResult<History>> PutHistory(int id, History history)
         {
             if (id != history.Id)
@@ -75,6 +79,7 @@ namespace Vehicles.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "Admin")]
         public async Task<IActionResult> DeleteHistory(int id)
         {
             History history = await _context.Histories.FirstOrDefaultAsync(h => h.Id == id);
